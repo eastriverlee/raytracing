@@ -2,6 +2,8 @@
 # define VEC3_H
 
 # include <math.h>
+# include <stdio.h>
+# include <stdlib.h>
 
 typedef struct	vec3
 {
@@ -12,7 +14,7 @@ typedef struct	vec3
 
 vec3 *init(vec3 *v, double e1, double e2, double e3)
 {
-	*v = malloc(sizeof(vec3));
+	v = malloc(sizeof(vec3));
 	v->x = e1;
 	v->y = e2;
 	v->z = e3;
@@ -38,28 +40,28 @@ void divide(vec3 *v, double t)
 	multiply(v, 1/t);
 }
 
-double length(vec3 *v)
-{
-	return (sqrt(length_squared(v)));
-}
-
 double length_squared(vec3 *v)
 {
 	return (v->x*v->x + v->y*v->y + v->z*v->z);
+}
+
+double length(vec3 *v)
+{
+	return (sqrt(length_squared(v)));
 }
 
 vec3 *plus(vec3 u, vec3 v)
 {
 	vec3 *_v;
 	
-	return (init(_v, u.x + v.x, u.y + v.y, u.z + v.z);
+	return (init(_v, u.x + v.x, u.y + v.y, u.z + v.z));
 }
 
 vec3 *minus(vec3 u, vec3 v)
 {
 	vec3 *_v;
 	
-	return (init(_v, u.x - v.x, u.y - v.y, u.z - v.z);
+	return (init(_v, u.x - v.x, u.y - v.y, u.z - v.z));
 }
 
 double dot(vec3 u, vec3 v)
@@ -69,7 +71,7 @@ double dot(vec3 u, vec3 v)
 			+u.z * v.z);
 }
 
-void cross(vec3 u, vec3 v)
+vec3 *cross(vec3 u, vec3 v)
 {
 	vec3 *_v;
 
@@ -86,12 +88,13 @@ vec3 *duplicate(vec3 v)
 	return (init(_v, v.x, v.y, v.z));
 }
 
-vec3 unit_vector(vec3 v)
+vec3 *unit_vector(vec3 v)
 {
 	vec3 *_v;
 
 	_v = duplicate(v);
-	return (divide(_v, length(_v)));
+	divide(_v, length(_v));
+	return (_v);
 }
 
 typedef vec3 point3;
