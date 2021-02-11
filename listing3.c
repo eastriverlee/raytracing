@@ -12,8 +12,8 @@ int	main()
 		fprintf(stderr, "\rScanlines remaining: %d ", j), fflush(stderr);
 		for (i = 0; i < image_width; ++i)
 		{
-			double r = (double)i / (double)(image_width-1);
-			double g = (double)j / (double)(image_height-1);
+			double r = (double)i / (image_width-1);
+			double g = (double)j / (image_height-1);
 			double b = 0.25;
 			int ir = (int)(255.999*r);
 			int ig = (int)(255.999*g);
