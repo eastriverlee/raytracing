@@ -97,6 +97,13 @@ vec3 *unit_vector(vec3 v)
 	return (_v);
 }
 
+void update(vec3 *v, double e1, double e2, double e3)
+{
+	v->x = e1;
+	v->y = e2;
+	v->z = e3;
+}
+
 typedef vec3 point3;
 typedef vec3 color;
 
