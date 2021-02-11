@@ -3,7 +3,7 @@
 
 int	main()
 {
-	color *pixel_color = init(pixel_color, 0, 0, 0);
+	color pixel_color;
 	const int image_width = 256;
 	const int image_height = 256;
 	int i, j;
@@ -14,10 +14,9 @@ int	main()
 		fprintf(stderr, "\rScanlines remaining: %d ", j), fflush(stderr);
 		for (i = 0; i < image_width; ++i)
 		{
-			update(pixel_color, (double)i/(image_width-1), (double)j/(image_height-1), 0.25);
-			write_color(*pixel_color);
+			update(&pixel_color, (double)i/(image_width-1), (double)j/(image_height-1), 0.25);
+			write_color(pixel_color);
 		}
 	}
-	free(pixel_color);
 	fprintf(stderr, "\nDone.\n");
 }
