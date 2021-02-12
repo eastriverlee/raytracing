@@ -15,7 +15,7 @@ typedef struct	vec3
 	double z;
 }				vec3;
 
-vec3 vector(double e1, double e2, double e3)
+vec3 vec3_(double e1, double e2, double e3)
 {
 	vec3 v;
 
@@ -27,7 +27,7 @@ vec3 vector(double e1, double e2, double e3)
 
 vec3 negative(vec3 v)
 {
-	return (vector(-v.x, -v.y, -v.z));
+	return (vec3_(-v.x, -v.y, -v.z));
 }
 
 vec3 multiply(vec3 *v, double t, int ismutating)
@@ -39,32 +39,12 @@ vec3 multiply(vec3 *v, double t, int ismutating)
 		v->z *= t;
 		return (*v);
 	}
-	return (vector(v->x*t, v->y*t, v->z*t));
+	return (vec3_(v->x*t, v->y*t, v->z*t));
 }
 
 vec3 divide(vec3 *v, double t, int ismutating)
 {
 	return (multiply(v, 1/t, ismutating));
-}
-
-double length_squared(vec3 v)
-{
-	return (v.x*v.x + v.y*v.y + v.z*v.z);
-}
-
-double length(vec3 v)
-{
-	return (sqrt(length_squared(v)));
-}
-
-vec3 plus(vec3 u, vec3 v)
-{
-	return (vector(u.x + v.x, u.y + v.y, u.z + v.z));
-}
-
-vec3 minus(vec3 u, vec3 v)
-{
-	return (vector(u.x - v.x, u.y - v.y, u.z - v.z));
 }
 
 double dot(vec3 u, vec3 v)
@@ -74,14 +54,29 @@ double dot(vec3 u, vec3 v)
 			+u.z * v.z);
 }
 
+double length(vec3 v)
+{
+	return (sqrt(dot(v, v)));
+}
+
+vec3 plus(vec3 u, vec3 v)
+{
+	return (vec3_(u.x + v.x, u.y + v.y, u.z + v.z));
+}
+
+vec3 minus(vec3 u, vec3 v)
+{
+	return (vec3_(u.x - v.x, u.y - v.y, u.z - v.z));
+}
+
 vec3 cross(vec3 u, vec3 v)
 {
-	return (vector(u.y * v.z - u.z * v.y,
+	return (vec3_(u.y * v.z - u.z * v.y,
 					u.z * v.x - u.x * v.z,
 					u.x * v.y - u.y * v.x));
 }
 
-vec3 unit_vector(vec3 v)
+vec3 unit_vec3_(vec3 v)
 {
 	return (divide(&v, length(v), FALSE));
 }
