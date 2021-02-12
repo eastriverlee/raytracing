@@ -1,6 +1,8 @@
 #ifndef RAY_H
 # define RAY_H
 
+# include "vec3.h"
+
 typedef struct	ray
 {
 	point3 orig;
@@ -18,7 +20,7 @@ ray ray_(point3 origin, vec3 direction)
 
 point3 at(ray r, double t)
 {
-	return (r.orig + t*r.dir);
+	return (add(r.orig, multiply(r.dir, t)));
 }
 
 #endif

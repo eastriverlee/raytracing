@@ -25,26 +25,38 @@ vec3 vec3_(double e1, double e2, double e3)
 	return (v);
 }
 
-vec3 negative(vec3 v)
+void update(vec3 *v, double e1, double e2, double e3)
+{
+	v->x = e1;
+	v->y = e2;
+	v->z = e3;
+}
+
+vec3 negate(vec3 v)
 {
 	return (vec3_(-v.x, -v.y, -v.z));
 }
 
-vec3 multiply(vec3 *v, double t, int ismutating)
+void multiply_(vec3 *v, double t)
 {
-	if (ismutating)
-	{
-		v->x *= t;
-		v->y *= t;
-		v->z *= t;
-		return (*v);
-	}
-	return (vec3_(v->x*t, v->y*t, v->z*t));
+	v->x *= t;
+	v->y *= t;
+	v->z *= t;
 }
 
-vec3 divide(vec3 *v, double t, int ismutating)
+vec3 multiply(vec3 v, double t)
 {
-	return (multiply(v, 1/t, ismutating));
+	return (vec3_(v.x*t, v.y*t, v.z*t));
+}
+
+void divide_(vec3 *v, double t)
+{
+	multiply_(v, 1/t);
+}
+
+vec3 divide(vec3 v, double t)
+{
+	return (multiply(v, 1/t));
 }
 
 double dot(vec3 u, vec3 v)
@@ -59,12 +71,22 @@ double length(vec3 v)
 	return (sqrt(dot(v, v)));
 }
 
-vec3 plus(vec3 u, vec3 v)
+void add_(vec3 *u, vec3 v)
+{
+	update(u, u->x + v.x, u->y + v.y, u->z + v.z);
+}
+
+vec3 add(vec3 u, vec3 v)
 {
 	return (vec3_(u.x + v.x, u.y + v.y, u.z + v.z));
 }
 
-vec3 minus(vec3 u, vec3 v)
+void subtract_(vec3 *u, vec3 v)
+{
+	update(u, u->x - v.x, u->y - v.y, u->z - v.z);
+}
+
+vec3 subtract(vec3 u, vec3 v)
 {
 	return (vec3_(u.x - v.x, u.y - v.y, u.z - v.z));
 }
@@ -72,21 +94,17 @@ vec3 minus(vec3 u, vec3 v)
 vec3 cross(vec3 u, vec3 v)
 {
 	return (vec3_(u.y * v.z - u.z * v.y,
-					u.z * v.x - u.x * v.z,
-					u.x * v.y - u.y * v.x));
+				u.z * v.x - u.x * v.z,
+				u.x * v.y - u.y * v.x));
 }
 
-vec3 unit_vec3_(vec3 v)
+vec3 unit_vector(vec3 v)
 {
-	return (divide(&v, length(v), FALSE));
+	return (divide(v, length(v)));
 }
 
-void update(vec3 *v, double e1, double e2, double e3)
-{
-	v->x = e1;
-	v->y = e2;
-	v->z = e3;
-}
+vec3 (*color_)(double e1, double e2, double e3) = vec3_;
+vec3 (*point3_)(double e1, double e2, double e3) = vec3_;
 
 typedef vec3 point3;
 typedef vec3 color;
