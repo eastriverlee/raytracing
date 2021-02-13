@@ -59,16 +59,16 @@ vec3 divide(vec3 v, double t)
 	return (multiply(v, 1/t));
 }
 
-double dot(vec3 u, vec3 v)
+double length_squared(vec3 v)
 {
-	return (u.x * v.x
-			+u.y * v.y
-			+u.z * v.z);
+	return (v.x * v.x
+			+v.y * v.y
+			+v.z * v.z);
 }
 
 double length(vec3 v)
 {
-	return (sqrt(dot(v, v)));
+	return (sqrt(length_squared(v)));
 }
 
 void add_(vec3 *u, vec3 v)
@@ -89,6 +89,13 @@ void subtract_(vec3 *u, vec3 v)
 vec3 subtract(vec3 u, vec3 v)
 {
 	return (vec3_(u.x - v.x, u.y - v.y, u.z - v.z));
+}
+
+double dot(vec3 u, vec3 v)
+{
+	return (u.x * v.x
+			+u.y * v.y
+			+u.z * v.z);
 }
 
 vec3 cross(vec3 u, vec3 v)
