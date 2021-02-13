@@ -32,7 +32,8 @@ int hit_sphere(sphere s, ray r, double t_min, double t_max, hit_record *rec)
 
 	rec->t = root;
 	rec->p = at(r, rec.t);
-	rec->normal = divide(subtract(rec.p, center), radius);
+	vec3 outward_normal = divide(subtract(rec.p, center), radius);
+	set_face_normal(rec, r, outward_normal);
 
 	return (TRUE);
 }
