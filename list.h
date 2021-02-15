@@ -43,31 +43,6 @@ void	listappend(list **lst, list *new)
 	}
 }
 
-static void	*error(list **lst, void (*del)(void *))
-{
-	listclear(lst, del);
-	return (NULL);
-}
-
-list		*listmap(list *lst, void *(*f)(void *), void (*del)(void *))
-{
-	t_list	*new;
-	t_list	*current;
-
-	new = NULL;
-	if (lst)
-		new = list_(f(lst->content));
-	current = new;
-	while (current)
-	{
-		lst = lst->next;
-		if (lst && !(current->next = list_(f(lst->content))))
-			return (error(&new, del));
-		current = current->next;
-	}
-	return (new);
-}
-
 void	listremove(list *lst, void (*del)(void *))
 {
 	if (lst)
