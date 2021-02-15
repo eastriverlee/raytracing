@@ -2,43 +2,94 @@
 # define HITTABLE_LIST_H
 
 # include "hittable.h"
-# include "list.h"
+# include "sphere.h"
 
-enum mesh
+typedef struct	list
 {
-	sphere_;
+	hittable object;
+	struct list *next;
+}				list;
+
+list	*list_(hittable object)
+{
+	list	*new;
+
+	new = malloc(sizeof(list));
+	if (new)
+	{
+		new->object = object;
+		new->next = NULL;
+	}
+	return (new);
 }
 
-typedef struct	hittable
+void	push(list **lst, list *new)
 {
-	enum mesh;
-	void *pointer;
-}				hittable;
+	if (lst)
+	{
+		list	*temp;
 
-void hit(int *hit_anything, double *closest_so_far, hit_record *rec)
+		temp = *lst;
+		*lst = new;
+		(*lst)->next = temp;
+	}
+}
+
+void	drop(list *lst)
+{
+	if (lst)
+	{
+		free(lst->object.pointer);
+		free(lst);
+	}
+}
+
+void	clear(list **lst)
+{
+	list	*temp;
+
+	if (lst)
+	{
+		while (*lst)
+		{
+			temp = (*lst)->next;
+			drop(*lst);
+			(*lst) = temp;
+		}
+		lst = NULL;
+	}
+}
+
+int hit(hittable *object, ray r, double t_min, double t_max, hit_record *rec)
+{
+	switch (object->mesh)
+	{
+		case _sphere:
+			if (hit_sphere(object->pointer, r, t_min, t_max, rec))
+				return (TRUE);	
+			break;
+	}
+	return (FALSE);
+}
+
+int list_hit(list **lst, ray r, double t_min, double t_max, hit_record *rec)
 {
 	hit_record temp_rec;
-
-	*hit_anything = TRUE;
-	*closest_so_far = temp_rec.t; 
-	*rec = temp_rec;
-}
-
-int list_hit(list *lst, ray r, double t_min, double t_max, hit_record *rec)
-{
-	int hit_anything = FALSE;
+	list *current;
 	double closest_so_far = t_max;
-	void *pointer;
+	int hit_anything = FALSE;
 
-	while ((lst = lst->next))
-		switch (lst->content->mesh)
+	current = lst ? *lst : NULL;
+	while (current)
+	{
+		if (hit(&(current->object), r, t_min, t_max, &temp_rec))
 		{
-			pointer = lst->content->pointer;
-			case sphere_:
-			if (sphere_hit(*(sphere *)pointer))
-				hit(&hit_anything, &closeset_so_far, &rec);
-			break;
+			hit_anything = TRUE;
+			closest_so_far = temp_rec.t; 
+			*rec = temp_rec;
 		}
+		current = current->next;
+	}
 	return (hit_anything);
 }
 
