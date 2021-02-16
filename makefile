@@ -1,4 +1,4 @@
-SRC=listing50.c
+SRC=listing52.c
 OUTPUT=test.ppm
 
 all:
