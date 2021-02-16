@@ -72,7 +72,7 @@ int hit(hittable *object, ray r, double t_min, double t_max, hit_record *rec)
 	return (ishit);
 }
 
-int list_hit(list **lst, ray r, double t_min, double t_max, hit_record *rec)
+int hit_(list **lst, ray r, double t_min, double t_max, hit_record *rec)
 {
 	hit_record temp_rec;
 	list *current;

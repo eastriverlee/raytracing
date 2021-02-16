@@ -13,7 +13,7 @@ color ray_color(ray r, list **world, int depth)
 	if (depth <= 0)
 		return (color_(0,0,0));
 
-	if (list_hit(world, r, 0.001, infinity, &rec))
+	if (hit_(world, r, 0.001, infinity, &rec))
 	{
 		ray scattered;
 		color attenuation;

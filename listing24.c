@@ -8,7 +8,7 @@ color ray_color(ray r, list **world)
 {
 	hit_record rec;
 
-	if (list_hit(world, r, 0, infinity, &rec))
+	if (hit_(world, r, 0, infinity, &rec))
 		return (multiply(add(rec.normal, color_(1,1,1)), 0.5));
 	vec3 unit_direction = unit_vector(r.direction);
 	double t = 0.5*(unit_direction.y + 1.0);
