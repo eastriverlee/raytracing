@@ -59,14 +59,17 @@ void	clear(list **lst)
 
 int hit(hittable *object, ray r, double t_min, double t_max, hit_record *rec)
 {
-	switch (object->mesh)
+	int ishit = FALSE;
+
+	switch (object->geometry)
 	{
 		case _sphere:
 			if (hit_sphere(object->pointer, r, t_min, t_max, rec))
-				return (TRUE);	
-			break;
+				ishit = TRUE;
 	}
-	return (FALSE);
+	if (ishit)
+		rec->material = object->material;
+	return (ishit);
 }
 
 int list_hit(list **lst, ray r, double t_min, double t_max, hit_record *rec)

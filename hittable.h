@@ -1,15 +1,8 @@
 #ifndef HITTABLE_H
 # define HITTABLE_H
 
-# include "ray.h"
-
-typedef struct	hit_record
-{
-	point3 p;
-	vec3 normal;
-	double t;
-	int	front_face;
-}				hit_record;
+# include "rtweekend.h"
+# include "material.h"
 
 void set_face_normal(hit_record *rec, ray r, vec3 outward_normal)
 {
@@ -24,7 +17,8 @@ typedef enum	geometry
 
 typedef struct	hittable
 {
-	geometry mesh;
+	geometry geometry;
+	material material;
 	void *pointer;
 }				hittable;
 

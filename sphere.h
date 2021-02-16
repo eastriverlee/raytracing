@@ -10,12 +10,13 @@ typedef struct	sphere
 	double radius;
 }				sphere;
 
-hittable sphere_(point3 center, double radius)
+hittable sphere_(point3 center, double radius, material material)
 {
 	hittable h;
 	sphere *s;
 
-	h.mesh = _sphere;
+	h.geometry = _sphere;
+	h.material = material;
 	h.pointer = malloc(sizeof(sphere));
 	if ((s = h.pointer))
 	{

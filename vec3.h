@@ -47,6 +47,17 @@ vec3 negate(vec3 v)
 	return (vec3_(-v.x, -v.y, -v.z));
 }
 
+int near_zero(vec3 v)
+{
+	double s = 1e-8;
+	return ((fabs(v.x) < s) && (fabs(v.y) < s) && (fabs(v.z) < s));
+}
+
+vec3 multiply__(vec3 v, vec3 u)
+{
+	return (vec3_(v.x*u.x, v.y*u.y, v.z*u.z));
+}
+
 void multiply_(vec3 *v, double t)
 {
 	v->x *= t;
@@ -136,13 +147,18 @@ vec3 random_unit_vector()
 	return (unit_vector(random_in_unit_sphere()));
 }
 
-vec3 random_in_hemisphere(vec3 normal)
+//vec3 random_in_hemisphere(vec3 normal)
+//{
+//	vec3 in_unit_sphere = random_in_unit_sphere();
+//	if (dot(in_unit_sphere, normal) > 0.0)
+//		return (in_unit_sphere);
+//	else
+//		return (negate(in_unit_sphere));
+//}
+
+vec3 reflect(vec3 v, vec3 n)
 {
-	vec3 in_unit_sphere = random_in_unit_sphere();
-	if (dot(in_unit_sphere, normal) > 0.0)
-		return (in_unit_sphere);
-	else
-		return (-in_unit_sphere);
+	return (subtract(v, multiply(n, 2*dot(v,n))));
 }
 
 vec3 (*color_)(double e1, double e2, double e3) = vec3_;
