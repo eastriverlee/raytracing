@@ -25,6 +25,16 @@ vec3 vec3_(double e1, double e2, double e3)
 	return (v);
 }
 
+vec3 vec3_random()
+{
+	return (vec3_(random_double(), random_double(), random_double()));
+}
+
+vec3 vec3_random_(double min, double max)
+{
+	return (vec3_(random_double_(min,max), random_double_(min,max), random_double_(min,max)));
+}
+
 void update(vec3 *v, double e1, double e2, double e3)
 {
 	v->x = e1;
@@ -108,6 +118,17 @@ vec3 cross(vec3 u, vec3 v)
 vec3 unit_vector(vec3 v)
 {
 	return (divide(v, length(v)));
+}
+
+vec3 random_in_unit_sphere()
+{
+	while (TRUE)
+	{
+		vec3 p = vec3_random_(-1,1);
+		if (length_squared(p) >= 1)
+			continue;
+		return (p);
+	}
 }
 
 vec3 (*color_)(double e1, double e2, double e3) = vec3_;
