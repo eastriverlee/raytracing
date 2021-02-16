@@ -131,6 +131,20 @@ vec3 random_in_unit_sphere()
 	}
 }
 
+vec3 random_unit_vector()
+{
+	return (unit_vector(random_in_unit_sphere()));
+}
+
+vec3 random_in_hemisphere(vec3 normal)
+{
+	vec3 in_unit_sphere = random_in_unit_sphere();
+	if (dot(in_unit_sphere, normal) > 0.0)
+		return (in_unit_sphere);
+	else
+		return (-in_unit_sphere);
+}
+
 vec3 (*color_)(double e1, double e2, double e3) = vec3_;
 vec3 (*point3_)(double e1, double e2, double e3) = vec3_;
 

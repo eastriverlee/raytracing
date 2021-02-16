@@ -15,7 +15,7 @@ color ray_color(ray r, list **world, int depth)
 	if (list_hit(world, r, 0.001, infinity, &rec))
 	{
 		point3 target = add(rec.p, rec.normal);
-			add_(&target, random_in_unit_sphere());
+			add_(&target, random_unit_vector());
 		return (multiply(ray_color(ray_(rec.p, subtract(target, rec.p)), world, depth-1), 0.5));
 	}
 	vec3 unit_direction = unit_vector(r.direction);

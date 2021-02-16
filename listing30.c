@@ -24,10 +24,9 @@ int	main()
 	const int samples_per_pixel = 100;
 	int i, j, s;
 
-	list **world;
-	world = malloc(sizeof(list *));
-	push(world, list_(sphere_(point3_(0,0,-1), 0.5)));
-	push(world, list_(sphere_(point3_(0,-100.5,-1), 100)));
+	list *world;
+	push(&world, list_(sphere_(point3_(0,0,-1), 0.5)));
+	push(&world, list_(sphere_(point3_(0,-100.5,-1), 100)));
 
 	camera cam = camera_();
 
@@ -43,11 +42,11 @@ int	main()
 				double u = ((double)i + random_double()) / (image_width-1);
 				double v = ((double)j + random_double()) / (image_height-1);
 				ray r = get_ray(&cam, u, v);
-				add_(&pixel_color, ray_color(r, world));
+				add_(&pixel_color, ray_color(r, &world));
 			}
 			write_color(pixel_color, samples_per_pixel);
 		}
 	}
-	clear(world);
+	clear(&world);
 	fprintf(stderr, "\nDone.\n");
 }

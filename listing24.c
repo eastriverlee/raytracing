@@ -22,10 +22,9 @@ int	main()
 	const int image_height = (int)(image_width / aspect_ratio);
 	int i, j;
 
-	list **world;
-	world = malloc(sizeof(list *));
-	push(world, list_(sphere_(point3_(0,0,-1), 0.5)));
-	push(world, list_(sphere_(point3_(0,-100.5,-1), 100)));
+	list *world;
+	push(&world, list_(sphere_(point3_(0,0,-1), 0.5)));
+	push(&world, list_(sphere_(point3_(0,-100.5,-1), 100)));
 
 	double viewport_height = 2.0;
 	double viewport_width = aspect_ratio * viewport_height;
@@ -49,10 +48,10 @@ int	main()
 			vec3 direction = add(lower_left_corner, multiply(horizontal, u));
 				add_(&direction, multiply(vertical, v));
 			ray r = ray_(origin, direction);
-			color pixel_color = ray_color(r, world);
+			color pixel_color = ray_color(r, &world);
 			write_color(pixel_color);
 		}
 	}
-	clear(world);
+	clear(&world);
 	fprintf(stderr, "\nDone.\n");
 }

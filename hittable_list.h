@@ -25,14 +25,11 @@ list	*list_(hittable object)
 
 void	push(list **lst, list *new)
 {
-	if (lst)
-	{
-		list	*temp;
+	list	*temp;
 
-		temp = *lst;
-		*lst = new;
-		(*lst)->next = temp;
-	}
+	temp = *lst;
+	*lst = new;
+	(*lst)->next = temp;
 }
 
 void	drop(list *lst)
