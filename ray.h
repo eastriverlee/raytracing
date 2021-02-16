@@ -18,9 +18,9 @@ ray ray_(point3 origin, vec3 direction)
 	return (r);
 }
 
-point3 at(ray r, double t)
+point3 at(ray *r, double t)
 {
-	return (add(r.origin, multiply(r.direction, t)));
+	return (add(r->origin, multiply(r->direction, t)));
 }
 
 #endif

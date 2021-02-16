@@ -1,24 +1,29 @@
 #include "rtweekend.h"
 
 #include "color.h"
+#include "material.h"
 #include "hittable_list.h"
 #include "sphere.h"
 #include "camera.h"
 
-color ray_color(ray r, list **world, int depth)
+color ray_color(ray *r, list *world, int depth)
 {
 	hit_record rec;
 
 	if (depth <= 0)
 		return (color_(0,0,0));
 
-	if (hit_(world, r, 0.001, infinity, &rec))
+	if (hit(world, r, 0.001, infinity, &rec))
 	{
-		point3 target = add(rec.p, rec.normal);
-			add_(&target, random_in_unit_sphere());
-		return (multiply(ray_color(ray_(rec.p, subtract(target, rec.p)), world, depth-1), 0.5));
+		ray scattered;
+		color attenuation;
+
+		if (scatter(r, &rec, &attenuation, &scattered))
+			return (multiply__(attenuation, ray_color(&scattered, world, depth-1)));
+		return (color_(0,0,0));
 	}
-	vec3 unit_direction = unit_vector(r.direction);
+
+	vec3 unit_direction = unit_vector(r->direction);
 	double t = 0.5*(unit_direction.y + 1.0);
 	return (add(multiply(color_(1.0, 1.0, 1.0), 1.0-t), multiply(color_(0.5, 0.7, 1.0), t)));
 }
@@ -33,8 +38,16 @@ int	main()
 	int i, j, s;
 
 	list *world;
-	push(&world, list_(sphere_(point3_(0,0,-1), 0.5)));
-	push(&world, list_(sphere_(point3_(0,-100.5,-1), 100)));
+
+	material material_ground = material_(lambertian, color_(0.8, 0.8, 0.0), FALSE);
+	material material_center = material_(lambertian, color_(0.7, 0.3, 0.3), FALSE);
+	material material_left = material_(metal, color_(0.8, 0.8, 0.8), 0.3);
+	material material_right = material_(metal, color_(0.8, 0.6, 0.2), 1.0);
+
+	push(&world, list_(sphere_(point3_(0.0,-100.5,-1.0), 100, material_ground)));
+	push(&world, list_(sphere_(point3_(0.0,0.0,-1.0), 0.5, material_center)));
+	push(&world, list_(sphere_(point3_(-1.0,0.0,-1.0), 0.5, material_left)));
+	push(&world, list_(sphere_(point3_(1.0,0.0,-1.0), 0.5, material_right)));
 
 	camera cam = camera_();
 
@@ -50,7 +63,7 @@ int	main()
 				double u = ((double)i + random_double()) / (image_width-1);
 				double v = ((double)j + random_double()) / (image_height-1);
 				ray r = get_ray(&cam, u, v);
-				add_(&pixel_color, ray_color(r, &world, max_depth));
+				add_(&pixel_color, ray_color(&r, world, max_depth));
 			}
 			write_color(pixel_color, samples_per_pixel);
 		}

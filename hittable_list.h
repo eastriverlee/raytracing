@@ -57,32 +57,30 @@ void	clear(list **lst)
 	}
 }
 
-int hit(hittable *object, ray r, double t_min, double t_max, hit_record *rec)
+static int hit_(hittable *object, ray *r, double t_min, double t_max, hit_record *rec)
 {
-	int ishit = FALSE;
+	int is_hit = FALSE;
 
 	switch (object->geometry)
 	{
 		case _sphere:
 			if (hit_sphere(object->pointer, r, t_min, t_max, rec))
-				ishit = TRUE;
+				is_hit = TRUE;
 	}
-	if (ishit)
+	if (is_hit)
 		rec->material = object->material;
-	return (ishit);
+	return (is_hit);
 }
 
-int hit_(list **lst, ray r, double t_min, double t_max, hit_record *rec)
+int hit(list *current, ray *r, double t_min, double t_max, hit_record *rec)
 {
 	hit_record temp_rec;
-	list *current;
 	double closest_so_far = t_max;
 	int hit_anything = FALSE;
 
-	current = lst ? *lst : NULL;
 	while (current)
 	{
-		if (hit(&(current->object), r, t_min, t_max, &temp_rec))
+		if (hit_(&current->object, r, t_min, t_max, &temp_rec) && temp_rec.t < closest_so_far)
 		{
 			hit_anything = TRUE;
 			closest_so_far = temp_rec.t; 
