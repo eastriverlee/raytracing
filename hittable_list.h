@@ -80,12 +80,13 @@ int hit(list *current, ray *r, double t_min, double t_max, hit_record *rec)
 
 	while (current)
 	{
-		if (hit_(&current->object, r, t_min, t_max, &temp_rec) && temp_rec.t < closest_so_far)
-		{
-			hit_anything = TRUE;
-			closest_so_far = temp_rec.t; 
-			*rec = temp_rec;
-		}
+		if (hit_(&current->object, r, t_min, t_max, &temp_rec))
+			if (temp_rec.t < closest_so_far)
+			{
+				hit_anything = TRUE;
+				closest_so_far = temp_rec.t; 
+				*rec = temp_rec;
+			}
 		current = current->next;
 	}
 	return (hit_anything);
