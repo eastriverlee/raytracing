@@ -39,10 +39,10 @@ int	main()
 
 	list *world;
 
-	material material_ground = material_(lambertian, color_(0.8, 0.8, 0.0), FALSE);
-	material material_center = material_(lambertian, color_(0.7, 0.3, 0.3), FALSE);
-	material material_left = material_(metal, color_(0.8, 0.8, 0.8), 0.3);
-	material material_right = material_(metal, color_(0.8, 0.6, 0.2), 1.0);
+	material material_ground = material_(lambertian, color_(0.8, 0.8, 0.0), FALSE, FALSE);
+	material material_center = material_(dielectric, color_(1.0, 1.0, 1.0), FALSE, 1.5);
+	material material_left = material_(metal, color_(0.8, 0.8, 0.8), 0.3, FALSE);
+	material material_right = material_(metal, color_(0.8, 0.6, 0.2), 1.0, FALSE);
 
 	push(&world, list_(sphere_(point3_(0.0,-100.5,-1.0), 100, material_ground)));
 	push(&world, list_(sphere_(point3_(0.0,0.0,-1.0), 0.5, material_center)));

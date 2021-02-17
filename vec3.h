@@ -161,6 +161,14 @@ vec3 reflect(vec3 v, vec3 n)
 	return (subtract(v, multiply(n, 2*dot(v,n))));
 }
 
+vec3 refract(vec3 uv, vec3 n, double etai_over_etat)
+{
+	double cos_theta = fmin(dot(negate(uv), n), 1.0);
+	vec3 r_out_perp = multiply(add(uv, multiply(n, cos_theta)), etai_over_etat);
+	vec3 r_out_parallel = multiply(n, -sqrt(fabs(1.0 - length_squared(r_out_perp))));
+	return (add(r_out_perp, r_out_parallel));
+}
+
 vec3 (*color_)(double e1, double e2, double e3) = vec3_;
 vec3 (*point3_)(double e1, double e2, double e3) = vec3_;
 
