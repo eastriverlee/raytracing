@@ -156,6 +156,17 @@ vec3 random_unit_vector()
 //		return (negate(in_unit_sphere));
 //}
 
+vec3 random_in_unit_disk()
+{
+	while (TRUE)
+	{
+		vec3 p = vec3_(random_double_(-1,1), random_double_(-1,1), 0);
+		if (length_squared(p) >= 1)
+			continue;
+		return (p);
+	}
+}
+
 vec3 reflect(vec3 v, vec3 n)
 {
 	return (subtract(v, multiply(n, 2*dot(v,n))));

@@ -50,7 +50,13 @@ int	main()
 	push(&world, list_(sphere_(point3_(-1.0,0.0,-1.0), -0.45, material_left)));
 	push(&world, list_(sphere_(point3_(1.0,0.0,-1.0), 0.5, material_right)));
 
-	camera cam = camera_(point3_(-2,2,1), point3_(0,0,-1), vec3_(0,1,0), 50, aspect_ratio);
+	point3 lookfrom = point3_(3,3,2);
+	point3 lookat = point3_(0,0,-1);
+	vec3 vup = vec3_(0,1,0);
+	double dist_to_focus = length(subtract(lookfrom, lookat));
+	double aperture = 2.0;
+
+	camera cam = camera_(lookfrom, lookat, vup, 20, aspect_ratio, aperture, dist_to_focus);
 
 	printf("P3\n%d %d\n255\n", image_width, image_height);
 	for (j = image_height-1; j >= 0; --j)
