@@ -11,7 +11,7 @@ typedef struct	camera
 	vec3 vertical;
 }				camera;
 
-camera camera_(double vfov, double aspect_ratio)
+camera camera_(point3 lookfrom, point3 lookat, vec3 vup, double vfov, double aspect_ratio)
 {
 	camera c;
 
@@ -20,23 +20,25 @@ camera camera_(double vfov, double aspect_ratio)
 	double viewport_height = 2.0 * h;
 	double viewport_width = aspect_ratio * viewport_height;
 
-	double focal_length = 1.0;
+	vec3 w = unit_vector(subtract(lookfrom, lookat));
+	vec3 u = unit_vector(cross(vup, w));
+	vec3 v = cross(w, u);
 
-	c.origin = point3_(0, 0, 0);
-	c.horizontal = vec3_(viewport_width, 0, 0);
-	c.vertical = vec3_(0, viewport_height, 0);
+	c.origin = lookfrom;
+	c.horizontal = multiply(u, viewport_width);
+	c.vertical = multiply(v, viewport_height);
 	c.lower_left_corner = subtract(c.origin, divide(c.horizontal, 2));
 		subtract_(&c.lower_left_corner, divide(c.vertical, 2));
-		subtract_(&c.lower_left_corner, vec3_(0, 0, focal_length));
+		subtract_(&c.lower_left_corner, w);
 	return (c);
 }
 
-ray get_ray(camera *c, double u, double v)
+ray get_ray(camera *c, double s, double t)
 {
 	vec3 direction;
 
-	direction = add(c->lower_left_corner, multiply(c->horizontal, u));
-		add_(&direction, multiply(c->vertical, v));
+	direction = add(c->lower_left_corner, multiply(c->horizontal, s));
+		add_(&direction, multiply(c->vertical, t));
 		subtract_(&direction, c->origin);
 	return (ray_(c->origin, direction));
 }
