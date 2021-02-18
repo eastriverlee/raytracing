@@ -39,18 +39,26 @@ int	main()
 
 	list *world;
 
-	material material_ground = material_(lambertian, color_(0.8, 0.8, 0.0), FALSE, FALSE);
-	material material_center = material_(lambertian, color_(0.1, 0.2, 0.5), FALSE, FALSE);
-	material material_left = material_(dielectric, color_(1.0, 1.0, 1.0), FALSE, 1.5);
-	material material_right = material_(metal, color_(0.8, 0.6, 0.2), 0.0, FALSE);
+//	material material_ground = material_(lambertian, color_(0.8, 0.8, 0.0), FALSE, FALSE);
+//	material material_center = material_(lambertian, color_(0.1, 0.2, 0.5), FALSE, FALSE);
+//	material material_left = material_(dielectric, color_(1.0, 1.0, 1.0), FALSE, 1.5);
+//	material material_right = material_(metal, color_(0.8, 0.6, 0.2), 0.0, FALSE);
+//
+//	push(&world, list_(sphere_(point3_(0.0,-100.5,-1.0), 100, material_ground)));
+//	push(&world, list_(sphere_(point3_(0.0,0.0,-1.0), 0.5, material_center)));
+//	push(&world, list_(sphere_(point3_(-1.0,0.0,-1.0), 0.5, material_left)));
+//	push(&world, list_(sphere_(point3_(-1.0,0.0,-1.0), -0.45, material_left)));
+//	push(&world, list_(sphere_(point3_(1.0,0.0,-1.0), 0.5, material_right)));
 
-	push(&world, list_(sphere_(point3_(0.0,-100.5,-1.0), 100, material_ground)));
-	push(&world, list_(sphere_(point3_(0.0,0.0,-1.0), 0.5, material_center)));
-	push(&world, list_(sphere_(point3_(-1.0,0.0,-1.0), 0.5, material_left)));
-	push(&world, list_(sphere_(point3_(-1.0,0.0,-1.0), -0.4, material_left)));
-	push(&world, list_(sphere_(point3_(1.0,0.0,-1.0), 0.5, material_right)));
+	double R = cos(pi/4);
 
-	camera cam = camera_();
+	material material_left = material_(lambertian, color_(0,0,1), FALSE, FALSE);
+	material material_right = material_(lambertian, color_(1,0,0), FALSE, FALSE);
+
+	push(&world, list_(sphere_(point3_(-R,0,-1), R, material_left)));
+	push(&world, list_(sphere_(point3_(R,0,-1), R, material_right)));
+
+	camera cam = camera_(90.0, aspect_ratio);
 
 	printf("P3\n%d %d\n255\n", image_width, image_height);
 	for (j = image_height-1; j >= 0; --j)

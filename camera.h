@@ -11,13 +11,15 @@ typedef struct	camera
 	vec3 vertical;
 }				camera;
 
-camera camera_()
+camera camera_(double vfov, double aspect_ratio)
 {
 	camera c;
 
-	double aspect_ratio = 16.0 / 9.0;
-	double viewport_height = 2.0;
+	double theta = degrees_to_radians(vfov);
+	double h = tan(theta/2);
+	double viewport_height = 2.0 * h;
 	double viewport_width = aspect_ratio * viewport_height;
+
 	double focal_length = 1.0;
 
 	c.origin = point3_(0, 0, 0);
