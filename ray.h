@@ -7,14 +7,16 @@ typedef struct	ray
 {
 	point3 origin;
 	vec3 direction;
+	double time;
 }				ray;
 
-ray ray_(point3 origin, vec3 direction)
+ray ray_(point3 origin, vec3 direction, double time)
 {
 	ray r;
 
 	r.origin = origin;
 	r.direction = direction;
+	r.time = time;
 	return (r);
 }
 

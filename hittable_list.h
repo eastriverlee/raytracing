@@ -3,6 +3,7 @@
 
 # include "hittable.h"
 # include "sphere.h"
+# include "moving_sphere.h"
 
 typedef struct	list
 {
@@ -59,13 +60,16 @@ void	clear(list **lst)
 
 static int hit_(hittable *object, ray *r, double t_min, double t_max, hit_record *rec)
 {
-	int is_hit = FALSE;
+	int is_hit;
 
 	switch (object->geometry)
 	{
 		case _sphere:
-			if (hit_sphere(object->pointer, r, t_min, t_max, rec))
-				is_hit = TRUE;
+			is_hit = hit_sphere(object->pointer, r, t_min, t_max, rec);
+			break;
+		case _moving_sphere:
+			is_hit = hit_moving_sphere(object->pointer, r, t_min, t_max, rec);
+			break;
 	}
 	if (is_hit)
 		rec->material = object->material;

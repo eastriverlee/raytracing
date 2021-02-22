@@ -77,7 +77,7 @@ int scatter(ray *r_in, hit_record *rec, color *attenuation, ray *scattered)
 				add_(&direction, multiply(random_in_unit_sphere(), rec->material.fuzz));
 			break;
 	}
-	*scattered = ray_(rec->p, direction);
+	*scattered = ray_(rec->p, direction, r_in->time);
 	*attenuation = rec->material.albedo;
 
 	return (rec->material.surface != metal || dot(scattered->direction, rec->normal) > 0);

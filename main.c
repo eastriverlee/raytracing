@@ -4,6 +4,7 @@
 #include "material.h"
 #include "hittable_list.h"
 #include "sphere.h"
+#include "moving_sphere.h"
 #include "camera.h"
 
 #define make_lambertian(c) material_(lambertian, c, FALSE, FALSE); 
@@ -33,16 +34,22 @@ list *random_scene()
 				{
 					albedo = multiply__(vec3_random(), vec3_random());
 					sphere_material = make_lambertian(albedo);
+					point3 center_ = add(center, vec3_(0, random_double_(0,0.5), 0));
+					push(&world, list_(moving_sphere_(center, center_, 0.0, 1.0, 0.2, sphere_material)));
 				}
-				else if (choose_mat < 0.95)
+				else 
 				{
-					albedo = vec3_random_(0.5, 1);
-					double fuzz = random_double_(0, 0.5);
-					sphere_material = make_metal(albedo, fuzz);
+					if (choose_mat < 0.95)
+					{
+						albedo = vec3_random_(0.5, 1);
+						double fuzz = random_double_(0, 0.5);
+						sphere_material = make_metal(albedo, fuzz);
+						push(&world, list_(sphere_(center, 0.2, sphere_material)));
+					}
+					else
+						sphere_material = make_dielectric(1.5);
+					push(&world, list_(sphere_(center, 0.2, sphere_material)));
 				}
-				else
-					sphere_material = make_dielectric(1.5);
-				push(&world, list_(sphere_(center, 0.2, sphere_material)));
 			}
 		}
 
@@ -83,10 +90,10 @@ color ray_color(ray *r, list *world, int depth)
 int	main()
 {
 	const float aspect_ratio = 1 / 1;
-	const int image_width = 480;
+	const int image_width = 400;
 	const int image_height = (int)(image_width / aspect_ratio);
-	const int samples_per_pixel = 50;
-	const int max_depth = 50;
+	const int samples_per_pixel = 20;
+	const int max_depth = 20;
 	int i, j, s;
 
 	list *world = random_scene();
@@ -97,7 +104,7 @@ int	main()
 	double dist_to_focus = 10;
 	double aperture = 0.1;
 
-	camera cam = camera_(lookfrom, lookat, vup, 20, aspect_ratio, aperture, dist_to_focus);
+	camera cam = camera_(lookfrom, lookat, vup, 20, aspect_ratio, aperture, dist_to_focus, 0, 1);
 
 	printf("P3\n%d %d\n255\n", image_width, image_height);
 	for (j = image_height-1; j >= 0; --j)

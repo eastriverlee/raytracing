@@ -12,7 +12,9 @@ void set_face_normal(hit_record *rec, ray *r, vec3 outward_normal)
 
 typedef enum	geometry
 {
-	_sphere
+	_sphere,
+	_moving_sphere
+	
 }				geometry;
 
 typedef struct	hittable

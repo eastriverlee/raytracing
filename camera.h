@@ -11,9 +11,10 @@ typedef struct	camera
 	vec3 vertical;
 	vec3 w, u, v;
 	double lens_radius;
+	double time0, time1;
 }				camera;
 
-camera camera_(point3 lookfrom, point3 lookat, vec3 vup, double vfov, double aspect_ratio, double aperture, double focus_dist)
+camera camera_(point3 lookfrom, point3 lookat, vec3 vup, double vfov, double aspect_ratio, double aperture, double focus_dist, double time0, double time1)
 {
 	camera c;
 
@@ -36,6 +37,8 @@ camera camera_(point3 lookfrom, point3 lookat, vec3 vup, double vfov, double asp
 		subtract_(&c.lower_left_corner, multiply(c.w, focus_dist));
 
 	c.lens_radius = aperture / 2;
+	c.time0 = time0;
+	c.time1 = time1;
 	return (c);
 }
 
@@ -53,7 +56,7 @@ ray get_ray(camera *c, double s, double t)
 		add_(&direction, multiply(c->vertical, t));
 		subtract_(&direction, c->origin);
 		subtract_(&direction, offset);
-	return (ray_(add(c->origin, offset), direction));
+	return (ray_(add(c->origin, offset), direction, random_double_(c->time0, c->time1)));
 }
 
 #endif
