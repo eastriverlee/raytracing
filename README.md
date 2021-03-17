@@ -1,5 +1,5 @@
 # Ray Tracing in One Weekend in C
-C ported version of [Ray Tracing in One Weekend](https://github.com/eastriverlee/raytracing.git)
+C ported version of [Ray Tracing in One Weekend](https://raytracing.github.io/)
 
 # Usage
 Since commits were done by listing images,
